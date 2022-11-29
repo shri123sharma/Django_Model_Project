@@ -96,10 +96,10 @@ class DemoView(View):
         # import pdb;pdb.set_trace()
         blog=Blog.objects.exclude(entry__author__name__startswith='john').values().count()
         author=Author.objects.filter(entry__blog__name__startswith="Beat").distinct().count()fsdfsdfasdf
-        entry=Entry.objects.filter(blog__tagline__istartswith='All').values()
-        for obj in entry:
+        entry=Entry.objects.filter(blog__tagline__istartswith='All').values()dfasdfasdfdasf
+        for obj in entry:fadfadsfdasf
             for item in obj.items():
-                item=item
+fasdfasdfasd                item=item
         return render(request,'demoview.html',{'blog':blog,'author':author,'item':item})
     
 
