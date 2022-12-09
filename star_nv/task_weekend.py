@@ -27,7 +27,19 @@ def fun_3(str3):
     return s3
 print(fun_3("helloworld"))
 
+class list():
+    li=[]
+    def append(self,num):
+        self.li.append(num)
+        return None
+    
+    def Pop(self,num):
+        ab=self.pop()
+        return ab
+obj1=list
+print(obj1([1,2,4,5]))
         
+             
                 
 
         
