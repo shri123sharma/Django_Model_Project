@@ -1,5 +1,7 @@
 from django.contrib import admin
 from star_nv.models import *
+
+
 admin.site.register(Person_1)
 admin.site.register(Group)
 admin.site.register(Membership)
@@ -19,5 +21,12 @@ admin.site.register(Student_3)
 admin.site.register(Blog)
 admin.site.register(Author)
 admin.site.register(Entry)
-
+admin.site.register(Publisher)
+admin.site.register(Author1)
+admin.site.register(Book1)
+admin.site.register(Item)
+admin.site.register(Cart)
+admin.site.register(Publisher3)
+admin.site.register(Book3)
+admin.site.register(Store)
 

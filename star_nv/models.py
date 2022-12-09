@@ -1,4 +1,6 @@
+from django.urls import reverse
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class person(models.Model):
@@ -234,9 +236,176 @@ class Article(models.Model):
         ordering=['headline']
     def __str__(self):
         return self.headline
+    
+class Book_1(models.Model):
+    title=models.CharField(max_length=100)
+    slug=models.SlugField(null=True)
+    genere=models.CharField(max_length=100,null=True,blank=True)
+    author=models.CharField(max_length=100,null=True,blank=True)
+    isbn=models.IntegerField()
+    count=models.IntegerField(null=True,default=0)
+    
+class Publisher(models.Model):
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=60)
+    state_province = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    website = models.URLField()
 
+    class Meta:
+        ordering = ["-name"]
+
+    def __str__(self):
+        return self.name
+
+class Author1(models.Model):
+    salutation = models.CharField(max_length=10)
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    headshot = models.ImageField(upload_to='author_headshots')
+
+    def __str__(self):
+        return self.name
+
+class Book1(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField('Author1')
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publication_date = models.DateField() 
+    
+class Author2(models.Model):
+    name=models.CharField(max_length=100)
+    
+    # def get_absolute_url(self):
+    #     return reverse("model-detail", kwargs={"pk": self.pk})
     
     
-
+class Company(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    est_date=models.DateField(auto_now_add=True)
+    location=models.CharField(max_length=100,null=True,blank=True)
+    total_employee=models.IntegerField()
+    
+    def __str__(self):
+        return self.name
+    
+class Film(models.Model):
+    film_name=models.CharField(max_length=100,null=True,blank=True)
+    title=models.CharField(max_length=100,null=True,blank=True)
+    length=models.IntegerField()
+    rating=models.IntegerField()
+    rental_rate=models.IntegerField()
+    
+class Topping1(models.Model):
+    name=models.CharField(max_length=100)
+    price=models.IntegerField()
+    
+    def __str__(self):
+        return self.name
+    
+class Pizza1(models.Model):
+    topping=models.ForeignKey(Topping,null=True,blank=True,related_name='topping_r_name',on_delete=models.CASCADE)
+    
+    
+    
+class Item(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    price=models.DecimalField(max_digits=5,decimal_places=2)
+    
+    def __str__(self):
+        return self.name
+    
+class Cart(models.Model):
+    user=models.ForeignKey(User,null=True,blank=True,related_name='user',on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
+    item=models.ManyToManyField(Item)
+    
+    def __str__(self):
+        return 'order_number:%s'%self.id
+    
+class Publisher3(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    
+    publisher3=models.Manager()
+    
+class Book3(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    pages = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    rating = models.FloatField()
+    publisher_3=models.ForeignKey(Publisher3,null=True,blank=True,on_delete=models.CASCADE)
+    pubdate=models.DateField()
+    
+    book3=models.Manager()
+       
+class Store(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    books=models.ManyToManyField(Book3)
+    
+    store=models.Manager()
+    
+class Category(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    
+    class Meta:
+        verbose_name_plural='categories'
         
+    def __str__(self):
+        return self.name
+    
+    def get_random():
+        return Category.objects.all().order_by('?').first()
+    
+    
+class User1(models.Model):
+    username=models.CharField(max_length=100,null=True,blank=True)
+    first_name=models.CharField(max_length=100,null=True,blank=True)
+    age=models.PositiveIntegerField()
+    email=models.EmailField(max_length=100)
+    date_of_birth=models.DateField()
+    
+    user=models.Manager()
+    
+class Person1(models.Model):
+    people=models.Manager()
+    
+class AuthorManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role='A')
+    
+class EditorManger(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role='E')
+    
+class Person2(models.Model):
+    first_name=models.CharField(max_length=100,null=True,blank=True)
+    age=models.IntegerField()
+    role=models.CharField(max_length=1,choices=(('A','Author'),('E','Editor')))
+    people=models.Manager()
+    authors=AuthorManager()
+    edit=EditorManger()
+    
+class Parent(models.Model):
+    name=models.CharField(max_length=100,null=True,blank=True)
+    age=models.IntegerField()
+    parent=models.Manager
+    class Meta:
+        abstract=True  
+        
+class Child(Parent):
+    occupation=models.CharField(max_length=100,null=True,blank=True)
+    
+    
+class Child1(Parent):
+    address=models.CharField(max_length=100,null=True,blank=True)
+
+
+    
+
+    
+    
+      
+      
+
     
